@@ -7,7 +7,7 @@ const User= new mongoose.model('User',UserSchema);
 route.get('/',async(req,res)=>{
   try{
     const result= await User.find({})
-    res.status(200).json(result)
+    res.json(result)
   }catch(err){
     res.send(err)
   }
@@ -19,11 +19,11 @@ route.get('/:id',async(req,res)=>{
   try{
     let data=await User.findOne({_id: req.params.id})
     // res.json({success:true,data:data})
-    res.status(200).json(data)
+    res.json({data:data})
   }
   catch(err){
     // res.json({success:false,data:err})
-    res.status(200).json(err)
+    res.json({error:err})
   }
   
 })
@@ -32,55 +32,48 @@ route.get('/:id',async(req,res)=>{
 // })
 //post one data
 route.post("/", async (req, res) => {
+  try{
     const newUser = new User(req.body);
-    await newUser.save((err) => {
-      if (err) {
-        res.status(500).json({
-          error: "There was a server side error!",
-      
-        });
-      } else {
-        res.status(200).json({
-          message: "Todo was inserted successfully!",
-        });
-      }
-    });
+    await newUser.save()
+    res.json({success:true,data:newUser})
+  }
+  catch(err){
+    res.json({error:err})
+  }
+    
   });
 
 
   //post multiple
   route.post('/all',async(req,res)=>{
-    await User.insertMany(req.body,(err)=>{
-      if (err) {
-        res.status(500).json({
-          error: "There was a server side error!",
-      
-        });
-      } else {
-        res.status(200).json({
-          message: "Todo was inserted successfully!",
-        });
-      }
-    })
+    try{
+      await User.insertMany(req.body)
+      res.json({success:true})
+    }
+    catch(err){
+      res.json({error:err})
+    }
   })
   route.put('/:id',async(req,res)=>{
-    User.findOneAndUpdate({_id:req.params.id},req.body,(err,place)=>{
-      res.send(place)
-    })
+    try{
+      await User.findOneAndUpdate({_id:req.params.id},req.body,)
+      res.json({success:true})
+    }
+    catch(err){
+      res.json({error:err})
+    }
+   
+
   })
 
 route.delete('/:id',async(req,res)=>{
-  User.deleteOne({_id:req.params.id},(err) => {
-    if (err) {
-      res.status(500).json({
-        error: "There was a server side error!",
-      });
-    } else {
-      res.status(200).json({
-        message: "Todo was deleted successfully!",
-      });
-    }})
-  
+  try{
+    await User.deleteOne({_id:req.params.id})
+    res.json({success:true})
+  }
+  catch(err){
+    res.json({error:err})
+  }
 })
 
 
