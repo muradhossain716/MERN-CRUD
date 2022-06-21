@@ -1,7 +1,10 @@
 const mongoose =require ('mongoose')
-const MySchema=new mongoose.Schema({
-    name:String,
-    username:String
+const {Schema}=mongoose;
+const MySchema=new Schema({
+    name:{ type:String},
+    age:{ type:Number},
+    id:{ type:Number}
+
 });
 
-module.exports=MySchema;
+module.exports=mongoose.model('user', MySchema);

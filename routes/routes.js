@@ -1,8 +1,8 @@
 const express=require('express');
 const mongoose=require('mongoose')
 const route=express.Router();
-const UserSchema=require('../modules/Schema');
-const User= new mongoose.model('User',UserSchema);
+const User=require('../modules/Schema');
+
 //get data 
 route.get('/',async(req,res)=>{
   try{
@@ -17,7 +17,7 @@ route.get('/',async(req,res)=>{
 //get one by ids
 route.get('/:id',async(req,res)=>{
   try{
-    let data=await User.findOne({_id: req.params.id})
+    let data=await User.findOne({id: req.params.id})
     // res.json({success:true,data:data})
     res.json({data:data})
   }
@@ -31,9 +31,11 @@ route.get('/:id',async(req,res)=>{
 //   console.log('get data')
 // })
 //post one data
-route.post("/", async (req, res) => {
+route.post("/add", async (req, res) => {
+  
   try{
     const newUser = new User(req.body);
+    console.log(req.body, newUser,'add data')
     await newUser.save()
     res.json({success:true,data:newUser})
   }
@@ -45,18 +47,19 @@ route.post("/", async (req, res) => {
 
 
   //post multiple
-  route.post('/all',async(req,res)=>{
+  // route.post('/all',async(req,res)=>{
+  //   try{
+  //     await User.insertMany(req.body)
+  //     res.json({success:true})
+  //   }
+  //   catch(err){
+  //     res.json({error:err})
+  //   }
+  // })
+  route.put('/update/:id',async(req,res)=>{
     try{
-      await User.insertMany(req.body)
-      res.json({success:true})
-    }
-    catch(err){
-      res.json({error:err})
-    }
-  })
-  route.put('/:id',async(req,res)=>{
-    try{
-      await User.findOneAndUpdate({_id:req.params.id},req.body,)
+      await User.findOneAndUpdate({id:req.params.id},req.body,)
+      console.log(id,req.body,' id req body updated')
       res.json({success:true})
     }
     catch(err){
@@ -66,9 +69,9 @@ route.post("/", async (req, res) => {
 
   })
 
-route.delete('/:id',async(req,res)=>{
+route.delete('/delete/:id',async(req,res)=>{
   try{
-    await User.deleteOne({_id:req.params.id})
+    await User.deleteOne({id:req.params.id})
     res.json({success:true})
   }
   catch(err){
