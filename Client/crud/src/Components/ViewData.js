@@ -12,7 +12,6 @@ export default function ViewData({users,deteleMethod,handleEdit}) {
      <nav className="nav">
           <Link to='/'>View Data</Link>
           <Link to='/adddata'>Add Data</Link>
-          <button type='button' onClick={()=> navigate("/aboutadmin", { replace: true })}> About us </button>
         </nav>
         
     <table>
@@ -27,11 +26,11 @@ export default function ViewData({users,deteleMethod,handleEdit}) {
 
           {
               users.map((user)=>
-                <tr key={user.id}>
+                <tr key={user._id}>
                   <td>{user.name}</td>
                   <td>{user.age}</td>
                   <td>
-                  <button type='button' onClick={()=>deteleMethod(user.id)}>Delete</button>/
+                  <button type='button' onClick={()=>deteleMethod(user._id)}>Delete</button>/
                   <button type='button' onClick={()=>edit(user)}>Edit</button>
                   </td>
                 </tr>

@@ -27,15 +27,12 @@ route.get('/:id',async(req,res)=>{
   }
   
 })
-// route.get('get/',(req,res)=>{
-//   console.log('get data')
-// })
-//post one data
+
 route.post("/add", async (req, res) => {
   
   try{
-    const newUser = new User(req.body);
-    console.log(req.body, newUser,'add data')
+    const data=req.body;
+    const newUser = new User(data.user);
     await newUser.save()
     res.json({success:true,data:newUser})
   }
@@ -58,8 +55,8 @@ route.post("/add", async (req, res) => {
   // })
   route.put('/update/:id',async(req,res)=>{
     try{
-      await User.findOneAndUpdate({id:req.params.id},req.body,)
-      console.log(id,req.body,' id req body updated')
+      const data=req.body.newField;
+      await User.findOneAndUpdate({_id:req.params.id},req.body.newField)
       res.json({success:true})
     }
     catch(err){
@@ -71,7 +68,7 @@ route.post("/add", async (req, res) => {
 
 route.delete('/delete/:id',async(req,res)=>{
   try{
-    await User.deleteOne({id:req.params.id})
+    await User.deleteOne({_id:req.params.id})
     res.json({success:true})
   }
   catch(err){

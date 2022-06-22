@@ -3,11 +3,13 @@ var cors = require('cors')
 const mongoose = require('mongoose');
 const routes=require('./routes/routes');
 const app=express();
+const bodyParser = require('body-parser')
 app.use(cors());
+app.use(express.json())
 mongoose.connect('mongodb://localhost:27017/users',()=>{
   console.log('db connected')
 })
-// app.use(express.json())
+
  app.use('/',routes)
 
 

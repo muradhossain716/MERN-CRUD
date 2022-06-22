@@ -14,7 +14,7 @@ export default function UpdateData({update,upDatedData}) {
         <input type='text' placeholder='Age' onChange={(e)=>setAge(e.target.value)} value={age}/>
         <button type='button' onClick={()=>{
           navigate("/", { replace: true });
-          upDatedData({name,age,id: update.id})
+          upDatedData({name,age,id: update.id},console.log(update.id,'click update'))
       } }>Add User</button>
         </>
   )
